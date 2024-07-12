@@ -15,21 +15,21 @@ fn panic_handler(_info: &PanicInfo) -> ! {
 fn main() -> ! {
     let p = stm32l4xx_hal::pac::Peripherals::take().unwrap();
     let mut rcc = p.RCC.constrain();
-    let mut gpiob = p.GPIOB.split(&mut rcc.ahb2);
-    let mut pb13 = gpiob
-        .pb13
-        .into_push_pull_output(&mut gpiob.moder, &mut gpiob.otyper);
-    pb13.set_high();
+    let mut gpioc = p.GPIOC.split(&mut rcc.ahb2);
+    let mut pc15 = gpioc
+        .pc15
+        .into_push_pull_output(&mut gpioc.moder, &mut gpioc.otyper);
+    pc15.set_high();
     loop {
         println!("Set High");
         for _i in 0..100_000 {
             cortex_m::asm::nop();
         }
         println!("Set Low");
-        pb13.set_low();
+        pc15.set_low();
         for _i in 0..100_000 {
             cortex_m::asm::nop();
         }
-        pb13.set_high();
+        pc15.set_high();
     }
 }
